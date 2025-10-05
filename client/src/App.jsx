@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Tasks from './pages/Tasks';
 import Analytics from './pages/Analytics';
+import Admin from './pages/Admin';
 import Layout from './components/Layout';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
 
         <Route path="/" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />

@@ -32,5 +32,12 @@ export const analyticsAPI = {
   getStats: () => api.get('/analytics/stats'),
 };
 
+export const adminAPI = {
+  getUsers: () => api.get('/admin/users'),
+  getUserDetails: (userId) => api.get(`/admin/users/${userId}`),
+  getAllTasks: () => api.get('/admin/tasks'),
+  getAdminStats: () => api.get('/admin/stats'),
+};
+
 export default api;
 

@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
 const analyticsRoutes = require('./routes/analytics');
+const adminRoutes = require('./routes/admin');
 const { initDatabase } = require('./database/db');
 
 dotenv.config();
@@ -22,6 +23,7 @@ initDatabase();
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Task Manager API is running' });

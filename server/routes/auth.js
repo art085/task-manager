@@ -46,7 +46,7 @@ router.post('/register', async (req, res) => {
           res.status(201).json({
             message: 'User registered successfully',
             token,
-            user: { id: this.lastID, username, email }
+            user: { id: this.lastID, username, email, isAdmin: false }
           });
         }
       );
@@ -81,7 +81,7 @@ router.post('/login', async (req, res) => {
       }
 
       const token = jwt.sign(
-        { userId: user.id },
+        { userId: user.id, isAdmin: user.is_admin },
         process.env.JWT_SECRET,
         { expiresIn: process.env.JWT_EXPIRE }
       );
@@ -89,7 +89,7 @@ router.post('/login', async (req, res) => {
       res.json({
         message: 'Login successful',
         token,
-        user: { id: user.id, username: user.username, email: user.email }
+        user: { id: user.id, username: user.username, email: user.email, isAdmin: Boolean(user.is_admin) }
       });
     });
   } catch (error) {
@@ -99,7 +99,7 @@ router.post('/login', async (req, res) => {
 
 // Get profile
 router.get('/profile', authMiddleware, (req, res) => {
-  db.get('SELECT id, username, email, created_at FROM users WHERE id = ?', [req.userId], (err, user) => {
+  db.get('SELECT id, username, email, is_admin, created_at FROM users WHERE id = ?', [req.userId], (err, user) => {
     if (err) {
       return res.status(500).json({ message: 'Database error' });
     }
@@ -108,7 +108,7 @@ router.get('/profile', authMiddleware, (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.json({ user });
+    res.json({ user: { ...user, isAdmin: Boolean(user.is_admin) } });
   });
 });
 
